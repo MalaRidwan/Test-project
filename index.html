@@ -16,8 +16,6 @@
         textarea, .input-custom { width: 100%; border-radius: 12px; border: 1px solid #eee; padding: 12px; margin-bottom: 15px; resize: none; background: #fafafa; outline: none; font-family: inherit; }
         .btn-next { background: #007aff; color: white; border: none; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; outline: none; margin-top: 5px; }
         .btn-choice { background: #f8f8f8; color: #555; border: 1px solid #eee; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; font-size: 0.9rem; }
-        .btn-choice:active { background: #eee; }
-        #btn-no { background: #f1f1f1; color: #999; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -39,7 +37,7 @@
         <img src="b1.jpg">
         <div class="text-story" id="text1"></div>
         <button class="btn-next" onclick="event.stopPropagation(); saveData(1, 2, 'Asik')">Asik Kok</button>
-        <button class="btn-next" onclick="event.stopPropagation(); baperMode()">Biasa Aja / Gak</button>
+        <button class="btn-next" onclick="event.stopPropagation(); responsBiasa()">Biasa Aja</button>
     </div>
 
     <div id="step-2" class="story-card">
@@ -92,8 +90,12 @@
         nextStep(1);
     }
 
-    function baperMode() {
-        alert("Yah... masa gak asik sih? Gw sedih nih kodingannya gagal. Coba pilih asik dong biar kodingannya jalan.. 🥺");
+    // Fungsi pas dia klik Biasa Aja
+    function responsBiasa() {
+        alert("Yah... masa biasa aja? Kasian banget kodingan gw capek-capek dibikin. Tapi yaudah deh, meskipun 'biasa aja' kita tetep lanjut ngetes fitur selanjutnya ya! 🥺");
+        dataRespon.Respon = "Biasa Aja";
+        messages[2] = "Meskipun lu bilang biasa aja, tapi demi kelancaran riset ini, kita harus tetep kalibrasi lewat ngopi. Kira-kira kapan lu ada waktu luang?";
+        nextStep(2);
     }
 
     function nextStep(current) {
