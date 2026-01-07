@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Projek Buat Nisa</title>
+    <title>Beta Test Project</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: #fdfbfb; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; cursor: pointer; }
         .container { width: 90%; max-width: 400px; z-index: 10; }
+        
         #step-0 { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fdfbfb; z-index: 100; text-align: center; padding: 20px; }
         .input-nama { width: 80%; border-radius: 12px; border: 1px solid #ccc; padding: 15px; margin: 20px 0; outline: none; text-align: center; font-size: 1rem; }
+
         .story-card { background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0; display: none; animation: fadeIn 0.6s ease; }
         .story-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; background: #eee; }
         .text-story { margin: 15px 0; font-size: 1rem; color: #444; font-weight: 500; min-height: 75px; line-height: 1.5; }
+        
         textarea, .input-custom { width: 100%; border-radius: 12px; border: 1px solid #eee; padding: 12px; margin-bottom: 15px; resize: none; background: #fafafa; outline: none; font-family: inherit; }
         .btn-next { background: #007aff; color: white; border: none; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; outline: none; margin-top: 5px; }
-        .btn-choice { background: #f8f8f8; color: #555; border: 1px solid #eee; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; font-size: 0.9rem; }
+        .btn-choice { background: #f8f8f8; color: #555; border: 1px solid #eee; padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; font-size: 0.9rem; transition: 0.2s; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -28,7 +32,7 @@
 <div class="container">
     <div id="step-0">
         <span style="font-size: 60px;">💻</span>
-        <h2 style="color: #555; font-size: 1.1rem; margin-bottom: 5px;">Nis, bantu ngetes kodingan bentar ya..</h2>
+        <h2 style="color: #555; font-size: 1.1rem; margin-bottom: 5px;">Nis, bantu aku ngetes kodingan bentar ya..</h2>
         <input type="text" id="namaUser" class="input-nama" placeholder="Ketik nama kamu..." autocomplete="off">
         <button class="btn-next" onclick="mulaiProjek()" style="width: 80%;">Mulai Tes ✨</button>
     </div>
@@ -37,33 +41,32 @@
         <img src="b1.jpg">
         <div class="text-story" id="text1"></div>
         <button class="btn-next" onclick="event.stopPropagation(); saveData(1, 2, 'Asik')">Asik Kok</button>
-        <button class="btn-next" onclick="event.stopPropagation(); responsBiasa()">Biasa Aja</button>
+        <button class="btn-next" style="background: #f1f1f1; color: #999;" onclick="event.stopPropagation(); baperMode()">Biasa Aja / Gak</button>
     </div>
 
     <div id="step-2" class="story-card">
         <img src="b2.jpg">
         <div class="text-story" id="text2"></div>
-        <textarea id="jadwal" placeholder="Contoh: Malam Minggu ya.." onclick="event.stopPropagation()"></textarea>
+        <textarea id="jadwal" placeholder="Contoh: Malam Minggu besok ya.." onclick="event.stopPropagation()"></textarea>
         <button class="btn-next" onclick="event.stopPropagation(); nextStep(3)">Lanjut ✨</button>
     </div>
 
     <div id="step-3" class="story-card">
-        <img src="b1.jpg">
+        <img src="b3.jpg">
         <div class="text-story" id="text3"></div>
         <div id="pilihan-lokasi">
             <button class="btn-choice" onclick="saveLokasi('Ke Pantai')">1. Ke Pantai 🌊</button>
             <button class="btn-choice" onclick="saveLokasi('Nongkrong di Cafe')">2. Nongkrong aja di Cafe ☕</button>
             <button class="btn-choice" onclick="saveLokasi('Muter-muter keliling jalan')">3. Muter-muter keliling jalan 🛵</button>
             <div style="margin-top: 10px;">
-                <p style="font-size: 0.8rem; color: #999; text-align: left;">4. Lainnya (Ketik sendiri):</p>
-                <input type="text" id="lokasiLain" class="input-custom" placeholder="Mau ke mana?">
-                <button class="btn-next" onclick="saveLokasi(document.getElementById('lokasiLain').value)">Kirim Lokasi</button>
+                <input type="text" id="lokasiLain" class="input-custom" placeholder="Ketik lokasi lainnya...">
+                <button class="btn-next" onclick="saveLokasi(document.getElementById('lokasiLain').value)">Kirim Pilihan</button>
             </div>
         </div>
     </div>
 
     <div id="step-4" class="story-card">
-        <img src="b3.jpg">
+        <img src="b4.jpg">
         <div class="text-story" id="text4"></div>
         <button class="btn-next" onclick="location.reload()" style="background: #333;">Selesai ❤️</button>
     </div>
@@ -77,25 +80,21 @@
     const musik = document.getElementById('musik');
     
     let messages = ["", 
-        "Sip! Gw lagi ngetes fitur 'Social Logic'. Menurut kamu, sejauh ini kita ngobrol asik gak sih?", 
-        "Wah mantap! Karena sistem cocok, mending lanjut ngetes obrolan sambil ngopi. Kira-kira kapan lu ada waktu luang?", 
-        "Terus kalau udah ada harinya, kamu lebih suka kemana nih nanti?", 
-        "Yeay! Seneng banget dengernya. Beneran loh ya, aku tunggu nanti! Balik ke WA ya. 😂"
+        "Sip! Aku lagi ngetes fitur 'Social Logic'. Menurut kamu, sejauh ini kita ngobrol asik gak sih?", 
+        "Wah senengnya! Karena sistemnya cocok, mending kita lanjutin obrolannya sambil ngopi atau makan. Kira-kira kapan kamu ada waktu luang?", 
+        "Terus kalau udah ada harinya, kamu lebih suka kita ke mana nanti?", 
+        "Yeay! Pilihan yang bagus. Gak sabar deh bisa jalan bareng kamu nanti. Beneran loh ya, aku tunggu! Balik ke WhatsApp sekarang ya, kabarin aku. 🫰🏻🤭"
     ];
 
     function mulaiProjek() {
         namaUser = document.getElementById('namaUser').value;
-        if (!namaUser.trim()) return alert("Isi nama dulu dong Nis..");
-        musik.play().catch(e => console.log("Audio diblokir"));
+        if (!namaUser.trim()) return alert("Isi nama kamu dulu ya.. 🥺");
+        musik.play().catch(e => console.log("Audio diblokir browser"));
         nextStep(1);
     }
 
-    // Fungsi pas dia klik Biasa Aja
-    function responsBiasa() {
-        alert("Yah... masa biasa aja? Kasian banget kodingan gw capek-capek dibikin. Tapi yaudah deh, meskipun 'biasa aja' kita tetep lanjut ngetes fitur selanjutnya ya! 🥺");
-        dataRespon.Respon = "Biasa Aja";
-        messages[2] = "Meskipun lu bilang biasa aja, tapi demi kelancaran riset ini, kita harus tetep kalibrasi lewat ngopi. Kira-kira kapan lu ada waktu luang?";
-        nextStep(2);
+    function baperMode() {
+        alert("Yah... masa gak asik sih? Aku sedih kodingannya gagal. Coba pilih 'Asik' dong biar kodingannya jalan.. 🥺");
     }
 
     function nextStep(current) {
@@ -124,7 +123,7 @@
     }
 
     function saveLokasi(lokasi) {
-        if (!lokasi.trim()) return alert("Isi dulu mau ke mananya..");
+        if (!lokasi.trim()) return alert("Isi dulu pilihannya ya..");
         dataRespon.Nama = namaUser;
         dataRespon.Hari = document.getElementById('jadwal').value;
         dataRespon.Lokasi = lokasi;
