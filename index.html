@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Projek Buat Nisa</title>
     <style>
-        /* Gaya dasar buat tampilan mobile Poco lu */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: #fdfbfb; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; cursor: pointer; }
         .container { width: 90%; max-width: 400px; z-index: 10; }
         
-        /* Step awal pancingan audio */
+        /* Halaman Awal Input Nama */
         #step-0 { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fdfbfb; z-index: 100; text-align: center; padding: 20px; }
-        
-        /* Kartu cerita */
+        .input-nama { width: 80%; border-radius: 12px; border: 1px solid #ccc; padding: 15px; margin: 20px 0; outline: none; text-align: center; font-size: 1rem; }
+
         .story-card { background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0; display: none; animation: fadeIn 0.6s ease; }
         .story-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; background: #eee; }
         .text-story { margin: 15px 0; font-size: 1rem; color: #444; font-weight: 500; min-height: 75px; line-height: 1.5; }
         
-        /* Tombol dan Input */
         textarea { width: 100%; border-radius: 12px; border: 1px solid #eee; padding: 12px; margin-bottom: 15px; resize: none; background: #fafafa; outline: none; font-family: inherit; }
         .btn-next { background: #007aff; color: white; border: none; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; outline: none; margin-top: 5px; }
         #btn-no { background: #f1f1f1; color: #999; }
@@ -26,7 +24,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onclick="playMusic()">
+<body>
 
 <audio id="musik" loop preload="auto">
     <source src="musik.mp3" type="audio/mpeg">
@@ -35,32 +33,35 @@
 <div class="container">
     <div id="step-0">
         <span style="font-size: 60px;">💻</span>
-        <h2 style="color: #555; font-size: 1.1rem;">Nis, bantu ngetes kodingan bentar ya..<br><span style="font-size: 0.8rem; color: #aaa;">(Ketuk layar buat mulai)</span></h2>
+        <h2 style="color: #555; font-size: 1.1rem; margin-bottom: 5px;">Nis, bantu ngetes kodingan bentar ya..</h2>
+        <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">Masukin nama kamu dulu di bawah:</p>
+        <input type="text" id="namaUser" class="input-nama" placeholder="Ketik nama di sini..." autocomplete="off">
+        <button class="btn-next" onclick="mulaiProjek()" style="width: 80%;">Mulai Tes ✨</button>
     </div>
 
     <div id="step-1" class="story-card">
-        <img src="b1.jpg">
+        <img src="Bocil1.jpg">
         <div class="text-story" id="text1"></div>
         <button class="btn-next" onclick="event.stopPropagation(); saveData(1, 2, 'Asik')">Asik Kok</button>
         <button class="btn-next" onclick="event.stopPropagation(); saveData(1, 2, 'Biasa Aja')">Biasa Aja</button>
     </div>
 
     <div id="step-2" class="story-card">
-        <img src="b2.jpg">
+        <img src="Bocil2.jpg">
         <div class="text-story" id="text2"></div>
         <button class="btn-next" onclick="event.stopPropagation(); nextStep(3)">Boleh Juga</button>
         <button id="btn-no" class="btn-next" onmouseover="moveButton()" onclick="event.stopPropagation(); moveButton()">Gak Mau</button>
     </div>
 
     <div id="step-3" class="story-card">
-        <img src="b3.jpg">
+        <img src="Bocil3.jpg">
         <div class="text-story" id="text3"></div>
-        <textarea id="jadwal" placeholder="Ketik kapannya di sini ya.." onclick="event.stopPropagation()"></textarea>
+        <textarea id="jadwal" placeholder="Ketik kapannya di sini ya..." onclick="event.stopPropagation()"></textarea>
         <button class="btn-next" onclick="event.stopPropagation(); kirimJadwal()">Kirim Jawaban ✨</button>
     </div>
 
     <div id="step-4" class="story-card">
-        <img src="b3.jpg">
+        <img src="Bocil3.jpg">
         <div class="text-story" id="text4"></div>
         <button class="btn-next" onclick="location.reload()" style="background: #333;">Selesai ❤️</button>
     </div>
@@ -69,19 +70,25 @@
 <script>
     const formspreeUrl = "https://formspree.io/f/mjgkngaq"; 
     let currentStep = 0;
+    let namaUser = "";
     const musik = document.getElementById('musik');
+    
     let messages = ["", 
-        "Gw lagi ngetes fitur 'Social Logic'. Menurut lu, sejauh ini kita ngobrol asik gak sih?", 
+        "Sip! Gw lagi ngetes fitur 'Social Logic'. Menurut kamu, sejauh ini kita ngobrol asik gak sih?", 
         "", 
         "", 
-        "Sip! Data udah gw terima. Nanti gw kabarin lagi ya buat fix-nya. Balik ke WhatsApp aja sekarang. 😂"
+        "Data udah gw terima. Nanti gw kabarin lagi ya buat fix-nya. Balik ke WhatsApp aja sekarang. 😂"
     ];
 
-    function playMusic() {
-        if (currentStep === 0) {
-            musik.play().catch(e => console.log("Audio diblokir browser"));
-            nextStep(1);
+    function mulaiProjek() {
+        const inputNama = document.getElementById('namaUser').value;
+        if (inputNama.trim() === "") {
+            alert("Isi nama dulu dong Nis.. 🥺");
+            return;
         }
+        namaUser = inputNama;
+        musik.play().catch(e => console.log("Audio diblokir"));
+        nextStep(1);
     }
 
     function typeWriter(text, elementId) {
@@ -108,20 +115,28 @@
         if (step === 1) {
             if (answer === 'Biasa Aja') {
                 messages[2] = "Jujur banget ya hahaha. Berarti algoritma 'Chemistry' gw masih perlu di-tuning nih. Gimana kalo kita lanjutin ngobrol aslinya aja?";
-                messages[3] = "Nah, mumpung lu lagi baik, mending kita kalibrasi ulang lewat ngopi biar makin asik. Kira-kira kapan lu ada waktu luang?";
+                messages[3] = "Nah, mumpung kamu lagi baik, mending kita kalibrasi ulang lewat ngopi biar makin asik. Kira-kira kapan kamu ada waktu luang?";
             } else {
-                messages[2] = "Wah, sistem mendeteksi jawaban lu positif. Berarti algoritma 'Chemistry' gw berhasil. Gimana kalau kita lanjutin obrolannya secara langsung?";
-                messages[3] = "Mantap! Karena sistemnya udah cocok, mending lanjut ngetes obrolannya sambil ngopi atau makan. Kira-kira kapan lu ada waktu luang?";
+                messages[2] = "Wah, sistem mendeteksi jawaban kamu positif. Berarti algoritma 'Chemistry' gw berhasil. Gimana kalau kita lanjutin obrolannya secara langsung?";
+                messages[3] = "Mantap! Karena sistemnya udah cocok, mending lanjut ngetes obrolannya sambil ngopi atau makan. Kira-kira kapan kamu ada waktu luang?";
             }
         }
-        fetch(formspreeUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ Respon: answer }) });
+        fetch(formspreeUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify({ Nama: namaUser, Respon: answer }) 
+        });
         nextStep(next);
     }
 
     function kirimJadwal() {
         const val = document.getElementById('jadwal').value;
         if (!val.trim()) return alert("Isi dulu ya.. 🥺");
-        fetch(formspreeUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ Jadwal: val }) });
+        fetch(formspreeUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify({ Nama: namaUser, Jadwal: val }) 
+        });
         nextStep(4);
     }
 
@@ -134,3 +149,4 @@
 </script>
 </body>
 </html>
+
